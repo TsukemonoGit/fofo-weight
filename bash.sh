@@ -4,8 +4,15 @@ cd `dirname $0`
 # 仮想環境をアクティブにする
 source env/bin/activate
 
-# Pythonスクリプトをバックグラウンドで実行する
-nohup python test.py  &
+
+# Pythonスクリプトを実行する
+python single_run.py
 
 # 仮想環境を非アクティブにする
 deactivate
+
+# Pythonスクリプトをバックグラウンドで実行する
+#nohup python single_run.py  & # nohup.outにログが出力される
+# nohup python test.py > /dev/null 2>&1 & # > /dev/null を使って標準出力を /dev/null にリダイレクトし、2>&1 を使って標準エラー出力を標準出力にリダイレクトしています。これにより、どちらの出力もファイルに保存されずに破棄されます。
+# 仮想環境を非アクティブにする
+# deactivate

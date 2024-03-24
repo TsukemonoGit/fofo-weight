@@ -41,7 +41,7 @@ while True:
         val = hx.get_weight(5) + tare
         #  val = round(hx.get_weight(5) + tare, 4)  
         # (5)のぶぶんは読み取りの試行回数を示しています。読み取りを安定させるために複数回試行し、その平均値を返します。このようにして、ノイズや不安定な値を軽減し、より正確な重量を取得します。
-        nowCount = int(val / 10.5)  # 1個あたりの重さで割って個数を計算し、整数に変換
+        nowCount = round(val / 10.5)  # 1個あたりの重さで割って個数を計算し、整数に変換
 
         #print("Weight:", round(val, 2), "Count:", nowCount)
          # 前回の個数が存在し個数変化があった場合にその値を表示

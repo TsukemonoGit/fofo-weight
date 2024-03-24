@@ -9,10 +9,16 @@ referenceUnit = 415
 
 ```
 source env/bin/activate
-$ python test.py
+$ python single_run.py
 ```
 
 backgroundで実行
 ```
 bash bash.sh
+```
+
+```
+crontab -e
+
+*/10 * * * * bash /path/to/your/bash.sh
 ```
