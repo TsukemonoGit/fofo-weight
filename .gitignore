@@ -1,5 +1,6 @@
 preCount.txt
 nohup.out
+lockfile
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

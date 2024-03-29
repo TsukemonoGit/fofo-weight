@@ -37,7 +37,7 @@ def cleanAndExit():
 if os.path.exists("lockfile"):
     print("Previous execution is still in progress. Exiting...")
     cleanAndExit()
-    
+
 
 hx = HX711(5, 6)
 
@@ -71,7 +71,7 @@ try:
         time.sleep(0.5)  # 0.5秒ごとに重量を測定
         if len(weight_readings) >= 10:  # 10回の測定を行ったら判定
             stddev = statistics.stdev(weight_readings)
-            if stddev < 1:  # 標準偏差が1以下であれば安定とみなす
+            if stddev < 0.5:  # 標準偏差が1以下であれば安定とみなす
                 break
             else:
                 weight_readings = []
@@ -82,6 +82,10 @@ try:
     if preCount is not None and preCount > nowCount:
         print("🍫:", preCount - nowCount)
         MSG = character * (preCount - nowCount)
+        MSG+=f"（残り:{nowCount}）"
+        # if nowCount<=0:
+        #     MSG+=f"（残り:{nowCount}）"
+
         command = f"nostr-tool -r wss://yabu.me -r wss://nos.lol -r wss://r.kojira.io -r wss://relay-jp.nostr.wirednet.jp -r wss://relay-jp.nostr.moctane.com -p {NSEC} text-note -c {MSG}"
         subprocess.run(command, shell=True)
 
