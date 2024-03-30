@@ -25,7 +25,7 @@ with open("preCount.txt", "r") as file:
 
 
 referenceUnit = 414.5
-tare=598.8#かご込み　　654.9 #かごなし
+tare=559.8# かご＋袋#598.8#かご込み　　654.9 #かごなし
 
 def cleanAndExit():
     print("Cleaning...")
@@ -79,7 +79,7 @@ try:
     nowCount = round(sum(weight_readings) / (len(weight_readings) * 10.5))  # 平均値を計算し、個数に変換
 
     # 前回の個数が存在し個数変化があった場合にその値を表示
-    if preCount is not None and preCount > nowCount:
+    if preCount is not None and preCount > nowCount and nowCount >=0:
         print("🍫:", preCount - nowCount)
         MSG = character * (preCount - nowCount)
         MSG+=f"（残り:{nowCount}）"

@@ -7,7 +7,7 @@ from hx711py.hx711 import HX711
 PIN_DAT = 5
 PIN_CLK = 6
 
-referenceUnit = 415 # <=これを決めたい
+referenceUnit = 414.5 # <=これを決めたい
 
 def cleanAndExit():
     print("Cleaning...")
@@ -26,7 +26,7 @@ def main():
 
     hx.reset()
 
-    hx.tare()
+   # hx.tare()
 
     print("Tare done! Add weight now...")
 
