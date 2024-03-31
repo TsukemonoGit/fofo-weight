@@ -36,7 +36,8 @@ def cleanAndExit():
 # 前回の実行が終了しているかどうかを確認し、終了していない場合は終了する
 if os.path.exists("lockfile"):
     print("Previous execution is still in progress. Exiting...")
-    cleanAndExit()
+    print("Bye!")
+    sys.exit() #GPIO設定する前だからいらないのかも 
 
 
 hx = HX711(5, 6)
