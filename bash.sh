@@ -1,12 +1,13 @@
 #!/bin/bash
 cd `dirname $0`
-
+# .envファイルから環境変数を読み込む
+source ./.env
 # 仮想環境をアクティブにする
 source env/bin/activate
 
 
 # Pythonスクリプトを実行する
-python single_run.py
+python single_run.py $NSEC_HEX
 
 # 仮想環境を非アクティブにする
 deactivate

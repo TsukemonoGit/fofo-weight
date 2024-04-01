@@ -1,16 +1,16 @@
 
 import os
 import statistics
-from dotenv import load_dotenv
+#from dotenv import load_dotenv # ModuleNotFoundError: No module named 'dotenv'
 import subprocess
 import time
 import sys
 import RPi.GPIO as GPIO
 from hx711py.hx711 import HX711
 
-load_dotenv('.env')
 
-NSEC=os.getenv("NSEC_HEX")
+NSEC = sys.argv[1]
+print(NSEC)
 character ="🍫"
 
 # preCount.txt ファイルの存在を確認し、存在しない場合はファイルを作成する
@@ -25,7 +25,7 @@ with open("preCount.txt", "r") as file:
 
 
 referenceUnit = 414.5
-tare=559.8# かご＋袋#598.8#かご込み　　654.9 #かごなし
+tare=598.8 #559.8# かご＋袋#598.8#かご込み　　654.9 #かごなし
 
 def cleanAndExit():
     print("Cleaning...")
@@ -39,6 +39,10 @@ if os.path.exists("lockfile"):
     print("Bye!")
     sys.exit() #GPIO設定する前だからいらないのかも 
 
+
+# LED
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(17,GPIO.OUT)
 
 hx = HX711(5, 6)
 
@@ -54,7 +58,7 @@ hx.reset()
 
 
 print("Tare done! Add weight now...")
-
+GPIO.output(17,1)
 
 
 # ロックファイルを作成して処理を開始
@@ -83,7 +87,7 @@ try:
     if preCount is not None and preCount > nowCount and nowCount >=0:
         print("🍫:", preCount - nowCount)
         MSG = character * (preCount - nowCount)
-        MSG+=f"（残り:{nowCount}）"
+        # MSG+=f"（残り:{nowCount}）"
         # if nowCount<=0:
         #     MSG+=f"（残り:{nowCount}）"
 
@@ -98,4 +102,5 @@ finally:
     # ロックファイルを削除して処理を終了
     os.remove("lockfile")
     hx.power_down()
+    GPIO.output(17,0)
     cleanAndExit()
