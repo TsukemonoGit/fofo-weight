@@ -2,7 +2,9 @@
 
 raspberry pi 4B で定期的に（またはスイッチで）アルフォートの重量を測って、
 前回測定したときより個数が減っていたら減った分をNostrに投稿する。
-<img alt="image" src="![image_path](https://share.yabu.me/84b0c46ab699ac35eb2ca286470b85e081db2087cdef63932236c397417782f5/dd0e8bb0c742f7966c71ed430671f984a93e55bb436ef976e2c9602b7d35cc99.webp)" width="300px">
+<img alt="image" src="https://share.yabu.me/84b0c46ab699ac35eb2ca286470b85e081db2087cdef63932236c397417782f5/dd0e8bb0c742f7966c71ed430671f984a93e55bb436ef976e2c9602b7d35cc99.webp" width="300px">
+
+（この画像撮った後でもう一個ボタン足してる）
 
 # 使用したもの 作ったもの
  - raspberry pi 4B
@@ -16,8 +18,8 @@ raspberry pi 4B で定期的に（またはスイッチで）アルフォート�
 https://zenn.dev/kotaproj/books/raspberrypi-tips/viewer/270_kiso_hx711
 
 
-## supervisorで常時スイッチ監視用設定
-
+## 手動スイッチ用の監視設定supervisor
+#### 手動計測用
 /etc/supervisor/conf.d/wSwitch.conf
 ```
 [program:wSwitch]
@@ -32,6 +34,20 @@ stderr_logfile=/var/log/supervisor/wSwitch-err.log
 
 supervisorから起動すると、pythonモジュールがうまく読み込めなかったため、bash.shの方で環境変数を読み込んで、引数で渡すことにした。
 
+#### preCountリセット用
+溶けたアルフォートを再冷蔵するときとかに食べてないのに減った判定されるのを防止するため。
+
+```
+[program:w_countReset_switch]
+command=python countReset_switch.py
+autostart=true
+autorestart=true
+stopsignal=QUIT
+directory={weight_switchまでの絶対パス}
+stdout_logfile=/var/log/supervisor/w_cr_switch-err.log
+stderr_logfile=/var/log/supervisor/w_cr_switch-err.log
+
+```
 ## crontabで定期重量監視用設定
 ```
 */10 * * * * bash /path/to/your/bash.sh
