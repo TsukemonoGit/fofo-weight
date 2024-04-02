@@ -16,4 +16,4 @@ while True:
         file.write(str(0))
     #チャタリング対策
     time.sleep(0.3)
-    GPIO.output(17,0)
+    GPIO.output(LED_PIN,0)

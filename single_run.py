@@ -39,10 +39,55 @@ if os.path.exists("lockfile"):
     print("Bye!")
     sys.exit() #GPIO設定する前だからいらないのかも 
 
+# 数字モニタ　74HC595
+dataPin=25
+latchPin=24
+clockPin=23
 
 # LED
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(17,GPIO.OUT)
+GPIO.setup(dataPin,GPIO.OUT)
+GPIO.setup(latchPin,GPIO.OUT)
+GPIO.setup(clockPin,GPIO.OUT)
+# 各数字に対応する7セグメントLEDのパターン
+# 数字0から9までのパターンを表す
+# [A, B, C, D, E, F, G]の順で各セグメントが点灯するかどうかを表したところ
+# [ G,F, E, D, C, B, A]になってたえええ
+
+digit_patterns = [
+    [1, 1, 1, 1, 1, 1, 0], # 0
+    [0, 1, 1, 0, 0, 0, 0], # 1
+    [1, 1, 0, 1, 1, 0, 1], # 2
+    [1, 1, 1, 1, 0, 0, 1], # 3
+    [0, 1, 1, 0, 0, 1, 1], # 4
+    [1, 0, 1, 1, 0, 1, 1], # 5
+    [1, 0, 1, 1, 1, 1, 1], # 6
+    [1, 1, 1, 0, 0, 0, 0], # 7
+    [1, 1, 1, 1, 1, 1, 1], # 8
+    [1, 1, 1, 1, 0, 1, 1]  # 9
+]
+
+# 各配列を逆順にする
+digit_patterns = [pattern[::-1] for pattern in digit_patterns]
+
+def shift_out(dataPin, clockPin, latchPin, data):
+    for bit in range(7, -1, -1):
+        GPIO.output(clockPin, GPIO.LOW)
+        GPIO.output(dataPin, data & (1 << bit))
+        GPIO.output(clockPin, GPIO.HIGH)
+    GPIO.output(latchPin, GPIO.HIGH)
+    GPIO.output(latchPin, GPIO.LOW)
+
+def display_digit(digit):
+    if digit < 0 or digit > 9:
+        raise ValueError("Invalid digit")
+    pattern = digit_patterns[digit]
+    shift_out(dataPin, clockPin, latchPin, int("".join(map(str, pattern)), 2))
+
+# 消灯させる関数
+def turn_off():
+    shift_out(dataPin, clockPin, latchPin, 0)
 
 hx = HX711(5, 6)
 
@@ -82,7 +127,7 @@ try:
                 weight_readings = []
 
     nowCount = round(sum(weight_readings) / (len(weight_readings) * 10.5))  # 平均値を計算し、個数に変換
-
+    display_digit(nowCount)
     # 前回の個数が存在し個数変化があった場合にその値を表示
     if preCount is not None and preCount > nowCount and nowCount >=0:
         print("🍫:", preCount - nowCount)
@@ -97,6 +142,8 @@ try:
     # ファイルにpreCountを書き込む
     with open("preCount.txt", "w") as file:
         file.write(str(nowCount))
+    time.sleep(3)
+    turn_off()
 
 finally:
     # ロックファイルを削除して処理を終了
