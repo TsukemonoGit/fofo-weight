@@ -3,12 +3,18 @@
 raspberry pi 4B で定期的に（またはスイッチで）アルフォートの重量を測って、
 前回測定したときより個数が減っていたら減った分をNostrに投稿する。
 
-nostr-tool
-https://github.com/0xtrr/nostr-tool
+nostrへの投稿に使用 
+[nostr-tool](https://github.com/0xtrr/nostr-tool)
+
+
+10分毎に自動で図るようにしてるけどスイッチでも測定できるので、
+乗せるごとにスイッチ押して、食べたらスイッチ押して、という使い方でもいいかも
+
+個数リセットボタンは減った分をなかったことにできるので、食べずに再冷蔵するときとかに押す。
+
 
 <img alt="image" src="https://share.yabu.me/84b0c46ab699ac35eb2ca286470b85e081db2087cdef63932236c397417782f5/70685a0a56daeed0cb1fe4e11ba9117654672af1a75682ca4a50f79309a94381.webp" width="300px">
 
-（この画像撮った後でもう一個ボタン足してる）
 
 # 使用したもの 作ったもの
  - raspberry pi 4B
@@ -17,6 +23,8 @@ https://github.com/0xtrr/nostr-tool
  - ボタンスイッチ（手動実行用）
  - スケールに乗せるカゴ（エコクラフトで手作り）
  - かごがちょっと小さいのでもっといっぱい乗せるための袋（手作り）
+ - 1 Digit 7-Segment Display
+ - 74HC595IC
 
 ## 参考 HX711ロードセルモジュールを使って、重さを測る
 https://zenn.dev/kotaproj/books/raspberrypi-tips/viewer/270_kiso_hx711
@@ -57,8 +65,14 @@ stderr_logfile=/var/log/supervisor/w_cr_switch-err.log
 */10 * * * * bash /path/to/your/bash.sh
 ```
 
-### ほか
-アルフォートは夏は常温で溶けるのでずっと図りに乗せっぱなしにすることはできない
-食べる分だけ冷蔵庫から出して、かごに入れたらスイッチを押して重量記録して使う？
-
-結局総数カウントしないし重量の差分で個数計算したほうがいいかも
+### ファイルについて
+ - cal_ref.py calibratyion.py - ロードセルの設定用
+ - digit_test.py - 7セグ1桁ディスプレイのテスト用
+ - countReset_switch.py - カウントリセットスイッチ監視用
+ - weight_switch.py - 測定スイッチ監視用
+ - single_run.py - bash.shを通して引数にNOSTRの秘密鍵とNOSTR-TOOLのパスを指定して実行する
+ - .env
+    ```
+    NSEC_HEX=nostrseckethexkey
+    NOSTR_TOOL_PATH=/path/to/nostr-tool
+    ```
