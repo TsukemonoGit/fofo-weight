@@ -67,9 +67,6 @@ def test_segment(segment_index):
     pattern[segment_index] = 1  # 指定されたセグメントを点灯
     shift_out(dataPin, clockPin, latchPin, int("".join(map(str, pattern)), 2))
 
-# 消灯させる関数
-def turn_off():
-    shift_out(dataPin, clockPin, latchPin, 0)
 
 # テスト実行
 for segment_index in range(7):

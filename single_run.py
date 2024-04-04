@@ -10,7 +10,9 @@ from hx711py.hx711 import HX711
 
 
 NSEC = sys.argv[1]
+NOSTR_TOOL = sys.argv[2]
 print(NSEC)
+print(NOSTR_TOOL)
 character ="🍫"
 
 # preCount.txt ファイルの存在を確認し、存在しない場合はファイルを作成する
@@ -118,7 +120,7 @@ try:
     while True:
         val = hx.get_weight(5) + tare
         weight_readings.append(val)
-        time.sleep(0.5)  # 0.5秒ごとに重量を測定
+        time.sleep(0.1)  # 0.5秒ごとに重量を測定
         if len(weight_readings) >= 10:  # 10回の測定を行ったら判定
             stddev = statistics.stdev(weight_readings)
             if stddev < 0.5:  # 標準偏差が1以下であれば安定とみなす
@@ -136,18 +138,19 @@ try:
         # if nowCount<=0:
         #     MSG+=f"（残り:{nowCount}）"
 
-        command = f"nostr-tool -r wss://yabu.me -r wss://nos.lol -r wss://r.kojira.io -r wss://relay-jp.nostr.wirednet.jp -r wss://relay-jp.nostr.moctane.com -p {NSEC} text-note -c {MSG}"
+        command = f" {NOSTR_TOOL} -r wss://yabu.me -r wss://nos.lol -r wss://r.kojira.io -r wss://relay-jp.nostr.wirednet.jp -r wss://relay-jp.nostr.moctane.com -p {NSEC} text-note -c {MSG}"
         subprocess.run(command, shell=True)
 
     # ファイルにpreCountを書き込む
     with open("preCount.txt", "w") as file:
         file.write(str(nowCount))
     time.sleep(3)
-    turn_off()
+  
 
 finally:
     # ロックファイルを削除して処理を終了
     os.remove("lockfile")
+    turn_off()
     hx.power_down()
     GPIO.output(17,0)
     cleanAndExit()

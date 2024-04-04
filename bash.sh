@@ -7,7 +7,7 @@ source env/bin/activate
 
 
 # Pythonスクリプトを実行する
-python single_run.py $NSEC_HEX
+python single_run.py $NSEC_HEX $NOSTR_TOOL_PATH
 
 # 仮想環境を非アクティブにする
 deactivate

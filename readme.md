@@ -3,7 +3,10 @@
 raspberry pi 4B で定期的に（またはスイッチで）アルフォートの重量を測って、
 前回測定したときより個数が減っていたら減った分をNostrに投稿する。
 
-<img alt="image" src="https://share.yabu.me/84b0c46ab699ac35eb2ca286470b85e081db2087cdef63932236c397417782f5/dd0e8bb0c742f7966c71ed430671f984a93e55bb436ef976e2c9602b7d35cc99.webp" width="300px">
+nostr-tool
+https://github.com/0xtrr/nostr-tool
+
+<img alt="image" src="https://share.yabu.me/84b0c46ab699ac35eb2ca286470b85e081db2087cdef63932236c397417782f5/70685a0a56daeed0cb1fe4e11ba9117654672af1a75682ca4a50f79309a94381.webp" width="300px">
 
 （この画像撮った後でもう一個ボタン足してる）
 
