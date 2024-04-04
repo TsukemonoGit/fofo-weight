@@ -79,4 +79,4 @@ stderr_logfile=/var/log/supervisor/w_cr_switch-err.log
 ### 8ビットシフトレジスタと7セグメントLEDについてのめも
 
 <img alt="image" src="https://github.com/TsukemonoGit/fofo-weight/assets/102149418/b2b42669-de7c-455e-814e-e952b4f16662" width="300px">
-<img alt="image" src="https://github.com/TsukemonoGit/fofo-weight/assets/102149418/7351ca4c-9535-4696-8d9c-fe49951e0efb" width="300px">
+<img alt="image" src="https://github.com/TsukemonoGit/fofo-weight/assets/102149418/be59fc71-baec-4133-a416-eee0418390c7" width="300px">
