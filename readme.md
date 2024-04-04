@@ -3,8 +3,7 @@
 raspberry pi 4B で定期的に（またはスイッチで）アルフォートの重量を測って、
 前回測定したときより個数が減っていたら減った分をNostrに投稿する。
 
-nostrへの投稿に使用 
-[nostr-tool](https://github.com/0xtrr/nostr-tool)
+nostrへの投稿に使用 : https://github.com/0xtrr/nostr-tool 
 
 
 10分毎に自動で図るようにしてるけどスイッチでも測定できるので、
@@ -26,10 +25,10 @@ nostrへの投稿に使用
  - 1 Digit 7-Segment Display
  - 74HC595IC
 
-## 参考 HX711ロードセルモジュールを使って、重さを測る
-https://zenn.dev/kotaproj/books/raspberrypi-tips/viewer/270_kiso_hx711
+## 参考 
+ - HX711ロードセルモジュールを使って、重さを測る - https://zenn.dev/kotaproj/books/raspberrypi-tips/viewer/270_kiso_hx711
 
-
+ - Arduinoのスターターキット(https://amzn.asia/d/4Nc8rW5)に入ってたCDの中の Elegoo Super Starter Kit for UNO V1.0.19.09.17-日本語.pdf　
 ## 手動スイッチ用の監視設定supervisor
 #### 手動計測用
 /etc/supervisor/conf.d/wSwitch.conf

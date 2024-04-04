@@ -24,21 +24,23 @@ GPIO.setup(clockPin,GPIO.OUT)
 # 数字0から9までのパターンを表す
 # [A, B, C, D, E, F, G]の順で各セグメントが点灯するかどうかを表す
 digit_patterns = [
-    [1, 1, 1, 1, 1, 1, 0], # 0
-    [0, 1, 1, 0, 0, 0, 0], # 1
-    [1, 1, 0, 1, 1, 0, 1], # 2
-    [1, 1, 1, 1, 0, 0, 1], # 3
-    [0, 1, 1, 0, 0, 1, 1], # 4
-    [1, 0, 1, 1, 0, 1, 1], # 5
-    [1, 0, 1, 1, 1, 1, 1], # 6
-    [1, 1, 1, 0, 0, 0, 0], # 7
-    [1, 1, 1, 1, 1, 1, 1], # 8
-    [1, 1, 1, 1, 0, 1, 1]  # 9
+    [1, 1, 1, 1, 1, 1, 0,0], # 0
+    [0, 1, 1, 0, 0, 0, 0,0], # 1
+    [1, 1, 0, 1, 1, 0, 1,0], # 2
+    [1, 1, 1, 1, 0, 0, 1,0], # 3
+    [0, 1, 1, 0, 0, 1, 1,0], # 4
+    [1, 0, 1, 1, 0, 1, 1,0], # 5
+    [1, 0, 1, 1, 1, 1, 1,0], # 6
+    [1, 1, 1, 0, 0, 0, 0,0], # 7
+    [1, 1, 1, 1, 1, 1, 1,0], # 8
+    [1, 1, 1, 1, 0, 1, 1,0]  # 9
 ]
+# シフトレジスタにパターンを送信する関数
 def shift_out(dataPin, clockPin, latchPin, data):
-    for bit in range(7, -1, -1):
+    for bit in range(0, 8): 
         GPIO.output(clockPin, GPIO.LOW)
-        GPIO.output(dataPin, data & (1 << bit))
+        bit_value = (data >> bit) & 1
+        GPIO.output(dataPin, bit_value)
         GPIO.output(clockPin, GPIO.HIGH)
     GPIO.output(latchPin, GPIO.HIGH)
     GPIO.output(latchPin, GPIO.LOW)
@@ -56,20 +58,20 @@ def turn_off():
 
 # 一つのセグメントのみ点灯させる関数
 def test_segment(segment_index):
-    if segment_index < 0 or segment_index > 6:
+    if segment_index < 0 or segment_index > 7:
         raise ValueError("Invalid segment index")
     
     # 一旦全てのセグメントを消灯
     turn_off()
     
     # 指定されたセグメントを点灯
-    pattern = [0, 0, 0, 0, 0, 0, 0]  # 全てのセグメントを消灯
+    pattern = [0, 0, 0, 0, 0, 0, 0,0]  # 全てのセグメントを消灯
     pattern[segment_index] = 1  # 指定されたセグメントを点灯
     shift_out(dataPin, clockPin, latchPin, int("".join(map(str, pattern)), 2))
 
 
 # テスト実行
-for segment_index in range(7):
+for segment_index in range(8):
     print(f"Testing segment {segment_index}")
     test_segment(segment_index)
     time.sleep(1)
