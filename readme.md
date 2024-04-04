@@ -75,3 +75,9 @@ stderr_logfile=/var/log/supervisor/w_cr_switch-err.log
     NSEC_HEX=nostrseckethexkey
     NOSTR_TOOL_PATH=/path/to/nostr-tool
     ```
+
+### 8ビットシフトレジスタと7セグメントLEDについてのめも
+
+<img alt="image" src="https://github.com/TsukemonoGit/fofo-weight/assets/102149418/50dae64a-3957-4616-b551-c1398adaf6e1" width="300px">
+<img alt="image" src="https://github.com/TsukemonoGit/fofo-weight/assets/102149418/c6c25286-e85f-4e59-9a05-e1bab4d8485f" width="300px">
+

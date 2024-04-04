@@ -18,8 +18,9 @@ GPIO.setup(clockPin, GPIO.OUT)
 def shift_out(dataPin, clockPin, latchPin, data):
     for bit in range(0, 8):  # ビットを順番に送信する
         GPIO.output(clockPin, GPIO.LOW)
-        # データからビットを抽出して送信する
+        # 10進数を2進数にして左から順に（bit）なんかしてるデータからビットを抽出して送信する
         bit_value = (data >> bit) & 1
+        #print(bit_value)
         GPIO.output(dataPin, bit_value)
         GPIO.output(clockPin, GPIO.HIGH)
     GPIO.output(latchPin, GPIO.HIGH)
@@ -34,7 +35,7 @@ def test_led_pattern(pattern):
     if len(pattern) != 8:
         raise ValueError("Invalid pattern: length must be 8")
     shift_out(dataPin, clockPin, latchPin, int("".join(map(str, pattern)), 2))
-
+    #print(int("".join(map(str, pattern)), 2))
 
 
 try:
