@@ -67,9 +67,16 @@ stderr_logfile=/var/log/supervisor/w_cr_switch-err.log
 ### ファイルについて
  - cal_ref.py calibratyion.py - ロードセルの設定用
  - digit_test.py - 7セグ1桁ディスプレイのテスト用
- - countReset_switch.py - カウントリセットスイッチ監視用
+ - weight_offset.py - 重量センサーのゼロ合わせ用 （offset.textに保存）
+ - offset_switch.py - ゼロ合わせ用のスイッチの監視用
+ - countReset_switch.py - カウントリセットスイッチ監視用 preCount.txtの値を0にする
  - weight_switch.py - 測定スイッチ監視用
  - single_run.py - bash.shを通して引数にNOSTRの秘密鍵とNOSTR-TOOLのパスを指定して実行する
+
+    前回のアルフォートの個数を preCount.txt から読み込む
+ 
+    ゼロ合わせをoffset.txtから読み込む
+ 
  - .env
     ```
     NSEC_HEX=nostrseckethexkey

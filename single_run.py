@@ -27,7 +27,12 @@ with open("preCount.txt", "r") as file:
 
 
 referenceUnit = 414.5
-tare=598.8 #559.8# かご＋袋#598.8#かご込み　　654.9 #かごなし
+if not os.path.exists("offset.txt"):
+    offset=0.0
+else:
+    # ファイルから preCount を読み込む
+    with open("offset.txt", "r") as file:
+        offset = float(file.read().strip())
 
 def cleanAndExit():
     print("Cleaning...")
@@ -71,13 +76,14 @@ digit_patterns = [
 
 # シフトレジスタにパターンを送信する関数
 def shift_out(dataPin, clockPin, latchPin, data):
+    
+    GPIO.output(latchPin, GPIO.LOW)
     for bit in range(0, 8): 
         GPIO.output(clockPin, GPIO.LOW)
         bit_value = (data >> bit) & 1
         GPIO.output(dataPin, bit_value)
         GPIO.output(clockPin, GPIO.HIGH)
     GPIO.output(latchPin, GPIO.HIGH)
-    GPIO.output(latchPin, GPIO.LOW)
 
 def display_digit(digit):
     if digit < 0 or digit > 9:
@@ -116,7 +122,8 @@ try:
     # 値がぶれているときは測定しないようにする ちょうどものを載せようとしてるときとか取ろうとしてるときとかを避けられる？
     # 次実行するまであんていしてなかったらどうするの
     while True:
-        val = hx.get_weight(5) + tare
+        val = hx.get_weight(5) - offset
+        print(val)
         weight_readings.append(val)
         time.sleep(0.1)  # 0.5秒ごとに重量を測定
         if len(weight_readings) >= 10:  # 10回の測定を行ったら判定
@@ -143,12 +150,12 @@ try:
     with open("preCount.txt", "w") as file:
         file.write(str(nowCount))
     time.sleep(3)
-  
+    turn_off()
 
 finally:
     # ロックファイルを削除して処理を終了
     os.remove("lockfile")
-    turn_off()
+  
     hx.power_down()
     GPIO.output(17,0)
     cleanAndExit()
