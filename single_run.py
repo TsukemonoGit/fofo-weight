@@ -33,7 +33,8 @@ else:
     # ファイルから preCount を読み込む
     with open("offset.txt", "r") as file:
         offset = float(file.read().strip())
-
+        
+print("offset:",offset)
 def cleanAndExit():
     print("Cleaning...")
     GPIO.cleanup()    
@@ -53,7 +54,7 @@ clockPin=23
 
 # LED
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(17,GPIO.OUT)
+#GPIO.setup(17,GPIO.OUT)
 GPIO.setup(dataPin,GPIO.OUT)
 GPIO.setup(latchPin,GPIO.OUT)
 GPIO.setup(clockPin,GPIO.OUT)
@@ -109,8 +110,9 @@ hx.reset()
 
 
 print("Tare done! Add weight now...")
-GPIO.output(17,1)
-
+#GPIO.output(17,1)
+# LEDをオンにする
+subprocess.run(["python", "led_control.py", "on"])
 
 # ロックファイルを作成して処理を開始
 with open("lockfile", "w") as lockfile:
@@ -157,5 +159,7 @@ finally:
     os.remove("lockfile")
   
     hx.power_down()
-    GPIO.output(17,0)
+    #GPIO.output(17,0)
+    # LEDをoffにする
+    subprocess.run(["python", "led_control.py", "off"])
     cleanAndExit()

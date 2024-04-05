@@ -1,6 +1,7 @@
 preCount.txt
 nohup.out
 lockfile
+led_lockfile
 offset.txt
 # Byte-compiled / optimized / DLL files
 __pycache__/

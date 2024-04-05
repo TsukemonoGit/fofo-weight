@@ -10,9 +10,9 @@ import RPi.GPIO as GPIO
 from hx711py.hx711 import HX711
 
 
-LED_PIN=17
-GPIO.setmode(GPIO.BCM)  #GPIOへアクセスする番号をBCMの番号で指定することを宣言します。
-GPIO.setup(LED_PIN,GPIO.OUT) #LED
+#LED_PIN=17
+#GPIO.setmode(GPIO.BCM)  #GPIOへアクセスする番号をBCMの番号で指定することを宣言します。
+#GPIO.setup(LED_PIN,GPIO.OUT) #LED
 
 referenceUnit = 414.5
 
@@ -42,7 +42,9 @@ print("Tare done! Add weight now...")
 
 
 try:
-    GPIO.output(LED_PIN,1)
+    #GPIO.output(LED_PIN,1)
+    # LEDをオンにする
+    subprocess.run(["python", "led_control.py", "on"])
     weight_readings2 = []
     while True:
         weight_readings = []
@@ -72,7 +74,9 @@ try:
                 file.write(str(stddev2))
             break
 finally:
-    GPIO.output(LED_PIN,0)
+    #GPIO.output(LED_PIN,0)
+    # LEDをoffにする
+    subprocess.run(["python", "led_control.py", "off"])
     hx.power_down()
 
     cleanAndExit()
