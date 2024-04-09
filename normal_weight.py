@@ -1,4 +1,5 @@
 # https://zenn.dev/kotaproj/books/raspberrypi-tips/viewer/270_kiso_hx711
+import subprocess
 import time
 import sys
 import RPi.GPIO as GPIO
@@ -6,8 +7,8 @@ from hx711py.hx711 import HX711
 
 PIN_DAT = 5
 PIN_CLK = 6
-
-referenceUnit = 414.5 # <=これを決めたい
+display_time=15
+referenceUnit = 414.5 
 
 def cleanAndExit():
     print("Cleaning...")
@@ -26,9 +27,12 @@ def main():
 
     hx.reset()
 
-   # hx.tare()
+    hx.tare()
 
     print("Tare done! Add weight now...")
+    subprocess.run(["python", "led_control.py", "on"])
+
+    start_time = time.time()  # 開始時間を記録
 
     while True:
         try:
@@ -38,12 +42,18 @@ def main():
 
             hx.power_down()
             hx.power_up()
-            
-            time.sleep(0.1)
+            subprocess.run(["python", "display_4.py", str(val), str(1)])
+
+            current_time = time.time()  # 現在の時間を取得
+            if current_time - start_time >= display_time:  # 表示時間を過ぎたら
+                break  # ループを抜ける
 
         except (KeyboardInterrupt, SystemExit):
-            panel.display_clear()
+            subprocess.run(["python", "led_control.py", "off"])
             cleanAndExit()
+
+    subprocess.run(["python", "led_control.py", "off"])
+    cleanAndExit()
 
 
 if __name__ == "__main__":

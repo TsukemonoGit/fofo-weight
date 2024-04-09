@@ -1,3 +1,4 @@
+# python led_control.py on
 import RPi.GPIO as GPIO
 import sys
 import os
@@ -21,7 +22,7 @@ def turn_off():
 # 外部からの引数を受け取り、LEDを制御する
 if __name__ == "__main__":
     # ロックファイルが存在する場合は、前回の実行がまだ終了していないとして終了する
-    if os.path.exists("lockfile"):
+    if os.path.exists("led_lockfile"):
         print("Previous execution is still in progress. Exiting...")
         sys.exit(1)
     
