@@ -5,18 +5,17 @@ raspberry pi 4B で定期的に（またはスイッチで）アルフォート�
 
 nostrへの投稿に使用 : https://github.com/0xtrr/nostr-tool 
 
-
-10分毎に自動で図るようにしてるけどスイッチでも測定できるので、
-乗せるごとにスイッチ押して、食べたらスイッチ押して、という使い方でもいいかも
-
 個数リセットボタンは減った分をなかったことにできるので、食べずに再冷蔵するときとかに押す。
 
 
 <img alt="image" src="https://share.yabu.me/84b0c46ab699ac35eb2ca286470b85e081db2087cdef63932236c397417782f5/70685a0a56daeed0cb1fe4e11ba9117654672af1a75682ca4a50f79309a94381.webp" width="300px">
 
+↑アルフォートが4つを検知
+
 4桁表示に進化した
 あとボタンも増えた
-アルフォート一つ 10.6g くらい
+
+↓アルフォートが一つで 10.6g くらい
 
 <img alt="image" src="https://share.yabu.me/84b0c46ab699ac35eb2ca286470b85e081db2087cdef63932236c397417782f5/5c0f010554441b3af406e7a9808e84caf41f54f52fa7aa04c46f6f7fb17a07fb.webp" width="300px">
 <img alt="image" src="https://share.yabu.me/84b0c46ab699ac35eb2ca286470b85e081db2087cdef63932236c397417782f5/4657fb19e748010c8ed6c997a3cbe16c46963e938482b9ae0f6b9fae02a8ed64.webp" width="300px">
@@ -74,9 +73,10 @@ stderr_logfile=/var/log/supervisor/w_cr_switch-err.log
 ```
 */10 * * * * bash /path/to/your/bash.sh
 ```
+もう食べたり補給する事にスイッチ押すでいいかもだからcronいらないかも
 
-### ファイルについて
-#### 設定用とか
+## ファイルについて
+### 設定用とか
  - cal_ref.py calibratyion.py - ロードセルの設定用
  - digit_test.py - 7セグ1桁ディスプレイのテスト用
  - weight_offset.py - 重量センサーのゼロ合わせ用 （offset.textに保存）
@@ -86,17 +86,17 @@ stderr_logfile=/var/log/supervisor/w_cr_switch-err.log
     NOSTR_TOOL_PATH=/path/to/nostr-tool
     ```
 
-#### スイッチ類
+### スイッチ類
  - offset_switch.py - ゼロ合わせ用のスイッチの監視用
  - countReset_switch.py - カウントリセットスイッチ監視用 preCount.txtの値を0にする
  - weight_switch.py - 測定スイッチ監視用
  - normal_weight_switch.py - 普通の重量測定用のスイッチ監視用
 
-#### 表示させるためのあれこれ
+### 表示させるためのあれこれ
  - led_control.py - 作動中を表す共通のLED　別プログラムから引数付きで呼び出す
  - display_4.py - 7seg４桁ディスプレイ表示用
 
-#### ほか…
+### ほか…
 
  - normal_weight - 普通に図る用 0.1gまで LEDがついたら乗せてよい　display_time秒経ったら勝手に終わる
 
