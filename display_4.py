@@ -23,6 +23,7 @@ DIGIT_PATTERNS = [
     [1, 1, 1, 0, 0, 0, 0, 0],  # 7
     [1, 1, 1, 1, 1, 1, 1, 0],  # 8
     [1, 1, 1, 1, 0, 1, 1, 0],   # 9
+    [0,0,0,0,0,0,0,0],#無
 ]
 GPIO.setwarnings(False)
 def initialize_pins():
@@ -54,6 +55,12 @@ def display_digit(digit,num):
 def turn_off():
     shift_out(PIN_MAPPING["data"], PIN_MAPPING["clock"], PIN_MAPPING["latch"], 0)
 
+def clean_and_exit():
+    print("Cleaning...")
+    GPIO.cleanup()
+    print("Bye!")
+    sys.exit()
+
 def main():
     initialize_pins()
     if len(sys.argv) < 2:
@@ -76,9 +83,11 @@ def main():
     else:
       digits=[0,0,0,0] 
     #print(digits)
+    #0のばあい10倍しても0になってしまうので0.0にするために
+    
     num_digits = len(str(number))
 
-    #print(num_digits)
+    print("num_digits:",num_digits)
     start_time = time.time()  # 開始時間を記録
     while True:  # 無限ループを追加してLEDの表示を繰り返す
         current_time = time.time()  # 現在の時間を取得
@@ -86,19 +95,19 @@ def main():
             break
         
       
-        for i in range(4):  # 4桁分のLEDを制御する
-              if i < num_digits:
+        for i in range(num_digits):  # 4桁分のLEDを制御する
+              
                 
-                GPIO.output(PIN_MAPPING["digits"][i], GPIO.LOW)  # 入力された桁数のみ点灯
-              
-                display_digit(digits[::-1][i],i)  # 桁ごとに数字を表示
-                time.sleep(0.002)
-                GPIO.output(PIN_MAPPING["digits"][i], GPIO.HIGH)
-              
-              time.sleep(0.002)
+            GPIO.output(PIN_MAPPING["digits"][i], GPIO.LOW)  # 入力された桁数のみ点灯
+            
+            display_digit(digits[::-1][i],i)  # 桁ごとに数字を表示
+            time.sleep(0.002)
+            GPIO.output(PIN_MAPPING["digits"][i], GPIO.HIGH)
+             
+            time.sleep(0.002)
    
     turn_off()  # LEDを消灯する
-
+    clean_and_exit()
 if __name__ == "__main__":
     
     main()
