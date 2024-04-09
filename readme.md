@@ -16,6 +16,7 @@ nostrへの投稿に使用 : https://github.com/0xtrr/nostr-tool
 
 4桁表示に進化した
 あとボタンも増えた
+アルフォート一つ 10.6g くらい
 
 <img alt="image" src="https://share.yabu.me/84b0c46ab699ac35eb2ca286470b85e081db2087cdef63932236c397417782f5/5c0f010554441b3af406e7a9808e84caf41f54f52fa7aa04c46f6f7fb17a07fb.webp" width="300px">
 <img alt="image" src="https://share.yabu.me/84b0c46ab699ac35eb2ca286470b85e081db2087cdef63932236c397417782f5/4657fb19e748010c8ed6c997a3cbe16c46963e938482b9ae0f6b9fae02a8ed64.webp" width="300px">
@@ -97,7 +98,7 @@ stderr_logfile=/var/log/supervisor/w_cr_switch-err.log
 
 #### ほか…
 
- - normal_weight - 普通に図る用 LEDがついたら乗せてよい　display_time秒経ったら勝手に終わる
+ - normal_weight - 普通に図る用 0.1gまで LEDがついたら乗せてよい　display_time秒経ったら勝手に終わる
 
  - single_run.py - bash.shを通して引数にNOSTRの秘密鍵とNOSTR-TOOLのパスを指定して実行する
     前回のアルフォートの個数を preCount.txt から読み込む
